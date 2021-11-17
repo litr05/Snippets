@@ -21,30 +21,22 @@
                     <th scope="col">ID</th>
                     <th scope="col">Название</th>
                     <th scope="col">Дата создания</th>
+{#                    <th scope="col">Удалить</th>#}
                 </tr>
                 </thead>
                 <tbody>
-
                 {% for snippet in snippets %}
                     <tr>
                         <td scope="row">{{ snippet.id }}</td>
-                        <td><a href="{% url 'snippet-page' id=snippet.id %}">{{ snippet.name }}</a></td>
-                        <td>{{ snippet.creation_date }}</td>
+                        <td>
+                            <a href="{% url 'snippet-page' id=snippet.id %}">{{ snippet.name }}</a>
+                            <a href="{% url 'snippet-delete' id=snippet.id %}"><i class="fas fa-trash-alt"></i></a>
+                            <a href="{% url 'snippet-edit' id=snippet.id %}"><i class="fas fa-edit"></i></a>
+                        </td>
+                        <td>{{ snippet.creation_date|date:'Y-m-d H:i:s.u' }}</td>
+{#                        <td><a href="{% url 'snippet-delete' id=snippet.id %}">Delete</a></td>#}
                     </tr>
                 {% endfor %}
-
-                <!--            <tr>-->
-                <!--                <td scope="row">1</td>-->
-                <!--                <td><a href="/snippets/1">Пример сниппета</a></td>-->
-                <!--                <td>23.05.2019 11:32</td>-->
-                <!--            </tr>-->
-
-                <!--            <tr>-->
-                <!--                <td scope="row">2</td>-->
-                <!--                <td><a href="/snippets/2">И ещё один пример</a></td>-->
-                <!--                <td>23.05.2019 11:34</td>-->
-                <!--            </tr>-->
-
                 </tbody>
             </table>
             <div align="right">

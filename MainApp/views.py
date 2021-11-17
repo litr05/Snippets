@@ -31,11 +31,23 @@ def single_snippet_page(request, id):
     return render(request, 'pages/snippet_page.html', context)
 
 
-def create_new_snippet(request):
-    form_data = request.POST
-    snippet = Snippet(name=form_data["name"], lang=form_data["lang"], code=form_data["code"])
-    snippet.save()
+def snippet_delete(request, id):
+    p = Snippet.objects.get(id=id)
+    p.delete()
     return redirect('snippets-list')
+
+
+def single_snippet_page(request, id):
+    try:
+        snippets = Snippet.objects.get(id=id)
+    except ObjectDoesNotExist:
+        raise Http404
+
+    context = {'pagename': 'Страница сниппета',
+               'snippet': snippets,
+               "type": "view",
+               }
+    return render(request, 'pages/snippet_page.html', context)
 
 
 def add_snippet_page(request):
@@ -52,3 +64,29 @@ def add_snippet_page(request):
             form.save()
             return redirect("snippets-list")
         return render(request, 'add_snippet.html', {'form': form})
+
+
+def snippet_edit(request, id):
+    try:
+        snippet = Snippet.objects.get(id=id)
+    except ObjectDoesNotExist:
+        raise Http404
+    if request.method == "GET":
+        context = {
+            'pagename': 'Редактировать сниппет',
+            "snippet": snippet,
+            "type": 'edit'
+        }
+        return render(request, 'pages/snippet_page.html', context)
+
+    if request.method == "POST":
+        form_data = request.POST
+        snippet.name = form_data["name"]
+        snippet.creation_date = form_data["creation_date"]
+        snippet.code = form_data["code"]
+        snippet.save()
+        snippets = Snippet.objects.all()
+        context = {'pagename': 'Просмотр сниппетов',
+                   'snippets': snippets,
+                   }
+        return render(request, 'pages/view_snippets.html', context)
