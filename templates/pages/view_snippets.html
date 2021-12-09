@@ -21,7 +21,7 @@
                     <th scope="col">ID</th>
                     <th scope="col">Название</th>
                     <th scope="col">Дата создания</th>
-{#                    <th scope="col">Удалить</th>#}
+                    <th scope="col">Пользователь</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -34,7 +34,7 @@
                             <a href="{% url 'snippet-edit' id=snippet.id %}"><i class="fas fa-edit"></i></a>
                         </td>
                         <td>{{ snippet.creation_date|date:'Y-m-d H:i:s.u' }}</td>
-{#                        <td><a href="{% url 'snippet-delete' id=snippet.id %}">Delete</a></td>#}
+                        <td> {{ snippet.user }}</td>
                     </tr>
                 {% endfor %}
                 </tbody>
