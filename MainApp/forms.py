@@ -15,8 +15,9 @@ class SnippetForm(ModelForm):
         }
 
         widgets = {
-            "name": TextInput(attrs={"placeholder": "Название виджета","class": "name"})
+            "name": TextInput(attrs={"placeholder": "Название виджета", "class": "name"})
         }
+
 
 class UserRegistrationForm(ModelForm):
     class Meta:
