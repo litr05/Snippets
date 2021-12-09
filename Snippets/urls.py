@@ -28,5 +28,7 @@ urlpatterns = [
     # path('create_new_snippet', views.create_new_snippet),
     path('snippet/delete/<int:id>', views.snippet_delete, name="snippet-delete"),
     path('snippet/edit/<int:id>', views.snippet_edit, name="snippet-edit"),
+    path('auth/login', views.login_page, name="login"),
+    path('auth/logout', views.logout, name="logout"),
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 

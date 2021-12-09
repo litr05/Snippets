@@ -90,3 +90,22 @@ def snippet_edit(request, id):
                    'snippets': snippets,
                    }
         return render(request, 'pages/view_snippets.html', context)
+
+
+def login_page(request):
+    if request.method == 'POST':
+        username = request.POST.get("username")
+        password = request.POST.get("password")
+        user = auth.authenticate(request, username=username, password=password)
+        if user is not None:
+            auth.login(request, user)
+        else:
+            # Return error message
+            pass
+
+    return redirect('home')
+
+
+def logout(request):
+    auth.logout(request)
+    return redirect('home')
