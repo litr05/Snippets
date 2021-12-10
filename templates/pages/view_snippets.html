@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
+{% load my_tags %}
+
     <div class="row">
         <div class="col">
             <p>На данной страницы будут отображаться все созданные сниппеты.</p>
@@ -37,7 +39,7 @@
                             {% endif %}
                         </td>
                         <td>{{ snippet.creation_date|date:'Y-m-d H:i:s.u' }}</td>
-                        <td> {{ snippet.user }}</td>
+                        <td> {{ snippet.user|is_empty:"нет пользователя" }}</td>
                         <td> {{ snippet.public }}</td>
                     </tr>
                 {% endfor %}
