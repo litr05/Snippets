@@ -94,10 +94,11 @@ def snippet_edit(request, id):
 
     if request.method == "POST":
         form_data = request.POST
+        public = form_data.get ("public") == 'on'
         snippet.name = form_data["name"]
         snippet.creation_date = form_data["creation_date"]
         snippet.code = form_data["code"]
-        # snippet.public = form_data["public"]
+        snippet.public = public
         snippet.save()
         snippets = Snippet.objects.all()
         context = {'pagename': 'Просмотр сниппетов',
