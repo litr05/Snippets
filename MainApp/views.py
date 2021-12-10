@@ -4,6 +4,7 @@ from MainApp.models import Snippet
 from django.core.exceptions import ObjectDoesNotExist
 from MainApp.forms import SnippetForm, UserRegistrationForm
 from django.contrib import auth
+from MainApp.forms import SnippetForm, UserRegistrationForm, CommentForm
 
 def index_page(request):
     context = {'pagename': 'PythonBin'}
@@ -55,7 +56,9 @@ def single_snippet_page(request, id):
 
     context = {'pagename': 'Страница сниппета',
                'snippet': snippets,
-               "type": "view",
+                "type": "view",
+                "comment_form": CommentForm(),
+                "comments": snippets.comments.all()
                }
     return render(request, 'pages/snippet_page.html', context)
 
@@ -105,6 +108,19 @@ def snippet_edit(request, id):
                    'snippets': snippets,
                    }
         return render(request, 'pages/view_snippets.html', context)
+
+def comment_add(request):
+    if request.method == "POST":
+        comment_form = CommentForm(request.POST)
+        if comment_form.is_valid():
+            comment = comment_form.save(commit=False)
+            comment.author = request.user
+            comment.snippet = Snippet.objects.get(id=request.POST["id"])
+            comment.save()
+
+        return redirect(f'/snippet/page/{request.POST["id"]}')
+
+    raise Http404
 
 
 def login_page(request):
